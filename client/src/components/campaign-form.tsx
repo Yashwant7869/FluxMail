@@ -33,10 +33,17 @@ export default function CampaignForm({ onPreviewEmail }: CampaignFormProps) {
     fromEmail: "john@company.com"
   });
 
-  const { data: contacts = [] } = useQuery({
-    queryKey: ['/api/contacts'],
+  const { data: allContacts = [] } = useQuery({
+    queryKey: ['/api/contacts']
+  });
+
+  const { data: sheetContacts = [] } = useQuery({
+    queryKey: ['/api/contacts', `sheetId=${spreadsheetId}`],
     enabled: !!spreadsheetId
   });
+
+  // Use sheet contacts if available, otherwise use all contacts
+  const contacts = Array.isArray(sheetContacts) && sheetContacts.length > 0 ? sheetContacts : allContacts;
 
   const { data: sheetData, isLoading: isLoadingSheet } = useQuery({
     queryKey: ['/api/sheets', spreadsheetId],
@@ -120,6 +127,15 @@ export default function CampaignForm({ onPreviewEmail }: CampaignFormProps) {
 
     previewSubject = previewSubject.replace(/\{\{email\}\}/g, sampleContact.email);
     previewContent = previewContent.replace(/\{\{email\}\}/g, sampleContact.email);
+
+    // Replace custom fields
+    if (sampleContact.customFields) {
+      Object.entries(sampleContact.customFields).forEach(([key, value]) => {
+        const placeholder = `{{${key}}}`;
+        previewSubject = previewSubject.replace(new RegExp(placeholder, 'g'), String(value));
+        previewContent = previewContent.replace(new RegExp(placeholder, 'g'), String(value));
+      });
+    }
 
     onPreviewEmail({
       subject: previewSubject,
