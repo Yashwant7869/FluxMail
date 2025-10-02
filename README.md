@@ -2,7 +2,7 @@
 
 A powerful email campaign management system with Google Sheets integration built with React, TypeScript, Express, and SendGrid.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/SheetMailEngine)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Yashwant7869/FluxMail)
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/YOUR_USERNAME/SheetMailEngine)
 
 ## ✨ Features
