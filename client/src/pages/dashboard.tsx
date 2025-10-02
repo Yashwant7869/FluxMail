@@ -14,11 +14,18 @@ interface PreviewData {
   recipientName?: string;
 }
 
+interface StatsData {
+  totalCampaigns: number;
+  emailsSent: number;
+  openRate: number;
+  clickRate: number;
+}
+
 export default function Dashboard() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [previewData, setPreviewData] = useState<PreviewData | null>(null);
 
-  const { data: stats } = useQuery({
+  const { data: stats } = useQuery<StatsData>({
     queryKey: ['/api/stats'],
   });
 

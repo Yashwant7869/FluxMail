@@ -7,7 +7,7 @@ export default function Sidebar() {
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <i className="fas fa-envelope text-primary-foreground text-sm"></i>
             </div>
-            <h1 className="text-lg font-semibold">BulkMail Pro</h1>
+            <h1 className="text-lg font-semibold">FluxMail</h1>
           </div>
         </div>
         
@@ -65,11 +65,12 @@ export default function Sidebar() {
         <div className="p-4 border-t border-border">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
-              <span className="text-sm font-medium text-secondary-foreground">JD</span>
+              <span className="text-sm font-medium text-secondary-foreground">T</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate" data-testid="text-user-name">John Doe</p>
-              <p className="text-xs text-muted-foreground truncate" data-testid="text-user-email">john@company.com</p>
+              <p className="text-sm font-medium truncate" data-testid="text-user-name">Technical Club Flux</p>
+              <p className="text-xs text-muted-foreground truncate" data-testid="text-user-email">flux.club@satiengg.in</p>
+              <p className="text-xs text-muted-foreground truncate" data-testid="text-user-email">For Support- 7869928242</p>
             </div>
           </div>
         </div>

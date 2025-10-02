@@ -1,11 +1,13 @@
 import { MailService } from '@sendgrid/mail';
 
-if (!process.env.SENDGRID_API_KEY) {
-  throw new Error("SENDGRID_API_KEY environment variable must be set");
-}
+let mailService: MailService | null = null;
 
-const mailService = new MailService();
-mailService.setApiKey(process.env.SENDGRID_API_KEY);
+if (process.env.SENDGRID_API_KEY) {
+  mailService = new MailService();
+  mailService.setApiKey(process.env.SENDGRID_API_KEY);
+} else {
+  console.warn("SENDGRID_API_KEY not found. Email sending will be simulated.");
+}
 
 interface EmailParams {
   to: string;
@@ -17,16 +19,39 @@ interface EmailParams {
 
 export async function sendEmail(params: EmailParams): Promise<boolean> {
   try {
-    await mailService.send({
+    if (!mailService) {
+      console.log(`📧 [SIMULATED] Email to ${params.to}: ${params.subject}`);
+      return true; // Simulate successful sending for development
+    }
+    
+    console.log(`🚀 [SENDING] Attempting to send email to: ${params.to}`);
+    console.log(`📧 [EMAIL DETAILS] From: ${params.from}, Subject: ${params.subject}`);
+    
+    const emailData: any = {
       to: params.to,
       from: params.from,
       subject: params.subject,
-      text: params.text || undefined,
-      html: params.html || undefined,
-    });
+    };
+    
+    if (params.text) {
+      emailData.text = params.text;
+    }
+    
+    if (params.html) {
+      emailData.html = params.html;
+    }
+    
+    await mailService.send(emailData);
+    console.log(`✅ [SUCCESS] Email sent successfully to: ${params.to}`);
     return true;
-  } catch (error) {
-    console.error('SendGrid email error:', error);
+  } catch (error: any) {
+    console.error(`❌ [SENDGRID ERROR] Failed to send email to ${params.to}:`, error);
+    
+    // Enhanced error logging
+    if (error.response && error.response.body) {
+      console.error(`📋 [ERROR DETAILS]`, JSON.stringify(error.response.body, null, 2));
+    }
+    
     return false;
   }
 }
